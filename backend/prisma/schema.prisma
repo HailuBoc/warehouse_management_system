@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id              Int               @id @default(autoincrement())
+  name            String            @unique
+  categoryId      Int               @map("category_id")
+  category        Category          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  stocks          Stock[]
+  stockMovements  StockMovement[]
+
+  @@index([categoryId])
+  @@map("products")
+}
+
+model Warehouse {
+  id                    Int             @id @default(autoincrement())
+  name                  String          @unique
+  stocks                Stock[]
+  outgoingMovements     StockMovement[] @relation("fromWarehouse")
+  incomingMovements     StockMovement[] @relation("toWarehouse")
+
+  @@map("warehouses")
+}
+
+model Stock {
+  productId      Int
+  warehouseId    Int
+  quantity       Int
+  reorderLevel   Int             @map("reorder_level")
+  product        Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  warehouse      Warehouse       @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+
+  @@id([productId, warehouseId])
+  @@index([productId])
+  @@index([warehouseId])
+  @@map("stock")
+}
+
+model StockMovement {
+  id              Int       @id @default(autoincrement())
+  productId       Int       @map("product_id")
+  fromWarehouseId Int       @map("from_warehouse_id")
+  toWarehouseId   Int       @map("to_warehouse_id")
+  quantity        Int
+  type            String    // "in" or "out"
+  createdAt       DateTime  @default(now()) @map("created_at")
+  product         Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  fromWarehouse   Warehouse @relation("fromWarehouse", fields: [fromWarehouseId], references: [id], onDelete: Cascade)
+  toWarehouse     Warehouse @relation("toWarehouse", fields: [toWarehouseId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([fromWarehouseId])
+  @@index([toWarehouseId])
+  @@index([createdAt])
+  @@map("stock_movements")
+}
