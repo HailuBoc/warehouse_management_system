@@ -1,13 +1,10 @@
-import { TransferRequest, TransferResponseDTO, AppError } from '../types/index.js';
+import { TransferRequestDTO, TransferResponseDTO, AppError } from '../types/index.js';
 import { transferRepository } from '../repositories/transferRepository.js';
 import { stockRepository } from '../repositories/stockRepository.js';
 import logger from '../config/logger.js';
 
 export class TransferService {
-  /**
-   * Validate and execute a stock transfer
-   */
-  async executeTransfer(request: TransferRequest): Promise<TransferResponseDTO> {
+  async executeTransfer(request: TransferRequestDTO): Promise<TransferResponseDTO> {
     const {
       productId,
       fromWarehouseId,

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { transferService } from '../services/transferService.js';
-import { ApiResponse, TransferResponseDTO, TransferRequest } from '../types/index.js';
+import { ApiResponse, TransferResponseDTO, TransferRequestDTO } from '../types/index.js';
 
 export class TransferController {
   async transfer(
@@ -9,7 +9,7 @@ export class TransferController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const transferRequest = req.body as TransferRequest;
+      const transferRequest = req.body as TransferRequestDTO;
       const result = await transferService.executeTransfer(transferRequest);
       const response: ApiResponse<TransferResponseDTO> = {
         success: true,
