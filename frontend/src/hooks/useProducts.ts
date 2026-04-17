@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { productApi } from '../api/products.js';
-import { Product, ProductWithStatus } from '../types/index.js';
+import { ProductWithStatus } from '../types/index.js';
 
 const PRODUCTS_QUERY_KEY = ['products'];
 

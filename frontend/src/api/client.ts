@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { ApiResponse } from '../types/index.js';
 
 const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
