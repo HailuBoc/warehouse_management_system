@@ -2,12 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+# Copy dependencies and source
 COPY package*.json ./
-RUN npm ci
-
+COPY node_modules ./node_modules
 COPY . .
+
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 5000
 
 CMD ["npm", "start"]
