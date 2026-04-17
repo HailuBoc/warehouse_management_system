@@ -8,6 +8,10 @@ const queryClient = new QueryClient({
     queries: {
       retry: 1,
       refetchOnWindowFocus: false,
+      gcTime: 1000 * 60 * 10, // 10 minutes
+    },
+    mutations: {
+      retry: 0,
     },
   },
 });
