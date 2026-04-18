@@ -59,6 +59,49 @@ A full-stack inventory management system built with React, Node.js, Express, and
 
 See [SETUP.md](./SETUP.md) for full setup instructions.
 
+### Docker (recommended)
+
+From the `inventory-system/` folder:
+
+```bash
+docker compose up -d --build
+```
+
+Open:
+- Frontend: `http://localhost:8080`
+- Backend: `http://localhost:3000` (API is also available via the frontend at `http://localhost:8080/api`)
+
+Useful commands:
+
+```bash
+# View running containers
+docker compose ps
+
+# Follow logs
+docker compose logs -f backend
+docker compose logs -f frontend
+docker compose logs -f postgres
+
+# Stop everything (keeps database volume)
+docker compose down
+
+# Stop and delete database volume (destructive)
+docker compose down -v
+```
+
+Run services individually:
+
+```bash
+# Start database only
+docker compose up -d postgres
+
+# Start backend (and its dependencies)
+docker compose up -d --build backend
+
+# Start frontend
+docker compose up -d --build frontend
+```
+
 ### Backend
 ```bash
 cd backend
