@@ -57,14 +57,24 @@ A full-stack inventory management system built with React, Node.js, Express, and
 
 ## Quick Start
 
-See [SETUP.md](./SETUP.md) for full setup instructions.
-
 ### Docker (recommended)
 
 From the `inventory-system/` folder:
 
 ```bash
 docker compose up -d --build
+```
+
+On first start (empty database), the backend **runs migrations and then loads sample products** (categories, warehouses, stock, sample movements). If you already have data and the DB is empty of products, restart the backend once after rebuild, or run:
+
+```bash
+docker compose exec backend node dist/scripts/seed.js
+```
+
+To **wipe and reseed** sample data (destructive):
+
+```bash
+docker compose exec -e SEED_FORCE=1 backend node dist/scripts/seed.js
 ```
 
 Open:

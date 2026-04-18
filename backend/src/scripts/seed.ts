@@ -5,6 +5,16 @@ const prisma = new PrismaClient();
 
 async function main() {
   try {
+    const existingCount = await prisma.product.count();
+    const force = process.env.SEED_FORCE === '1';
+
+    if (existingCount > 0 && !force) {
+      logger.info(
+        'Database already contains products; skipping seed. Set SEED_FORCE=1 to wipe and reseed.'
+      );
+      return;
+    }
+
     logger.info('Starting database seed...');
 
     // Clear existing data
